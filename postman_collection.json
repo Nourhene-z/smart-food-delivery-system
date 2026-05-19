@@ -1,0 +1,424 @@
+{
+  "info": {
+    "name": "Smart Food Delivery System",
+    "description": "Complete API for food delivery system with design patterns",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Customer Management",
+      "item": [
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"address\": \"123 Main St\",\n  \"phone\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers"]
+            }
+          }
+        },
+        {
+          "name": "Get Customer by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customers"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Restaurant Management (Caching Demo)",
+      "item": [
+        {
+          "name": "Get All Restaurants (Cached)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/restaurants",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "restaurants"]
+            }
+          }
+        },
+        {
+          "name": "Get Top-Rated Restaurants (Cached)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/restaurants/top-rated",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "restaurants", "top-rated"]
+            }
+          }
+        },
+        {
+          "name": "Get Restaurants by Category (Cached)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/restaurants/category/Italian",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "restaurants", "category", "Italian"]
+            }
+          }
+        },
+        {
+          "name": "Get Restaurant by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/restaurants/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "restaurants", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Restaurant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Pizza Palace\",\n  \"category\": \"Italian\",\n  \"description\": \"Best pizza in town\",\n  \"address\": \"456 Food St\",\n  \"phone\": \"9876543210\",\n  \"rating\": 4.5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/restaurants",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "restaurants"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order Management",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"restaurantId\": 1,\n  \"totalAmount\": 50.0,\n  \"deliveryAddress\": \"123 Main St\",\n  \"specialInstructions\": \"No onions\",\n  \"paymentMethod\": \"CREDIT_CARD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Customer Orders",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/customer/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "customer", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/1/status?status=CONFIRMED",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "1", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "CONFIRMED"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payment Processing (Strategy Pattern Demo)",
+      "item": [
+        {
+          "name": "Process Credit Card Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1,\n  \"amount\": 50.0,\n  \"paymentMethod\": \"CREDIT_CARD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "process"]
+            }
+          }
+        },
+        {
+          "name": "Process PayPal Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1,\n  \"amount\": 50.0,\n  \"paymentMethod\": \"PAYPAL\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "process"]
+            }
+          }
+        },
+        {
+          "name": "Process Cash Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1,\n  \"amount\": 50.0,\n  \"paymentMethod\": \"CASH\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "process"]
+            }
+          }
+        },
+        {
+          "name": "Refund Payment",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/refund?orderId=1&amount=50.0",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "refund"],
+              "query": [
+                {
+                  "key": "orderId",
+                  "value": "1"
+                },
+                {
+                  "key": "amount",
+                  "value": "50.0"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delivery Management (Circuit Breaker Demo)",
+      "item": [
+        {
+          "name": "Assign Delivery",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/delivery/1/assign",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "delivery", "1", "assign"]
+            }
+          }
+        },
+        {
+          "name": "Get Delivery with Location (Circuit Breaker)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/delivery/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "delivery", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Delivery by Order ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/delivery/order/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "delivery", "order", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Delivery Status",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/delivery/1/status?status=IN_TRANSIT",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "delivery", "1", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "IN_TRANSIT"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Active Deliveries",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/delivery/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "delivery", "active"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Monitoring & Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            }
+          }
+        },
+        {
+          "name": "Application Info",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/info",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "info"]
+            }
+          }
+        },
+        {
+          "name": "Circuit Breaker Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/actuator/circuitbreakers",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "circuitbreakers"]
+            }
+          }
+        },
+        {
+          "name": "Retry Metrics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/actuator/retries",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "retries"]
+            }
+          }
+        },
+        {
+          "name": "Cache Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/actuator/caches",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "caches"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}

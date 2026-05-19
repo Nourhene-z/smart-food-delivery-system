@@ -1,0 +1,99 @@
+spring:
+  application:
+    name: smart-food-delivery-system
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/food_delivery_db
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 60000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    root: INFO
+    com.designpatterns.fooddelivery: DEBUG
+    org.springframework.web: INFO
+    org.springframework.data: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus,info,circuitbreakers,retries,caches
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 100
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 60000
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+    instances:
+      gpsServiceCircuitBreaker:
+        baseConfig: default
+        waitDurationInOpenState: 30000
+
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 2000
+        retryExceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+          - java.io.IOException
+    instances:
+      deliveryTrackingRetry:
+        baseConfig: default
+        maxAttempts: 3
+        waitDuration: 2000
+
+  timelimiter:
+    configs:
+      default:
+        cancelRunningFuture: true
+        timeoutDuration: 10000
+    instances:
+      gpsServiceTimeLimiter:
+        baseConfig: default
+        timeoutDuration: 5000

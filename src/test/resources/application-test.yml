@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: smart-food-delivery-system-test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  cache:
+    type: simple
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: WARN
+    com.designpatterns.fooddelivery: INFO
